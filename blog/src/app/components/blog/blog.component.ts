@@ -8,6 +8,7 @@ import {DataService} from '../../services/data.service';
 })
 export class BlogComponent implements OnInit {
 
+  @Input() id: number;
   @Input() filterText: string;
   public items$: any;
 
