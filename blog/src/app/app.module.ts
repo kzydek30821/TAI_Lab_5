@@ -1,9 +1,12 @@
+import { LoginComponent } from './components/login/login.component';
+import { AuthService } from './services/auth.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+import {AuthInterceptor} from './services/auth.interceptor';
 
-import {DataService} from "./services/data.service";
+import {DataService} from './services/data.service';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -21,6 +24,7 @@ import { FilterPipe } from './pipes/filter.pipe';
 import { TextFormatDirective } from './directives/text-format.directive';
 import { SelectizeComponent } from './components/selectize/selectize.component';
 import { AddPostComponent } from './components/add-post/add-post.component';
+import { SignupComponent } from './components/signup/signup.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +43,9 @@ import { AddPostComponent } from './components/add-post/add-post.component';
     FilterPipe,
     TextFormatDirective,
     SelectizeComponent,
-    AddPostComponent
+    AddPostComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -48,7 +54,13 @@ import { AddPostComponent } from './components/add-post/add-post.component';
     AppRoutingModule
   ],
   providers: [
-    DataService
+    DataService,
+    AuthService,
+    {
+    provide: HTTP_INTERCEPTORS,
+       useClass: AuthInterceptor,
+       multi: true
+    }
 ],
   bootstrap: [AppComponent]
 })
